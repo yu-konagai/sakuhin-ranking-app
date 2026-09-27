@@ -4,6 +4,7 @@ const tagsInput =document.getElementById("tags") as HTMLInputElement;
 const ratingInput =document.getElementById("rating") as HTMLInputElement;
 const sakuhinList=document.getElementById("sakuhin-list")as HTMLDListElement;
 const searchInput=document.getElementById("search") as HTMLInputElement;
+const clearButton=document.getElementById("clearButton")as HTMLButtonElement;
 
 type sakuhinType={
     id:number,
@@ -61,7 +62,7 @@ localStorage.setItem("Sakuhins",
 }
 const savedSakuhins=
 localStorage.getItem("Sakuhins");
-if(savedSakuhins){
+if(savedSakuhins!==null){
     Sakuhins=JSON.parse(savedSakuhins)
 }
 function renderSakuhins(displaySakuhins:sakuhinType[]=Sakuhins){
@@ -74,11 +75,12 @@ function renderSakuhins(displaySakuhins:sakuhinType[]=Sakuhins){
         <h3>${sakuhin.title}</h3>
         <p>${sakuhin.rating}</p>`;
 
+                  
         sakuhin.tags.forEach((tag)=>{
-             const tagsSpan=document.createElement("span");
+            const tagsSpan=document.createElement("span"); 
              div.appendChild(tagsSpan);
              tagsSpan.textContent=`#${tag}`
-             tagsSpan.className="tag"
+             tagsSpan.className="tag"            
              tagsSpan.addEventListener("click",()=>{
                 const tagsFilter=Sakuhins.filter((sakuhin)=>{
                 return sakuhin.tags.includes(tag);
@@ -132,4 +134,9 @@ function renderSakuhins(displaySakuhins:sakuhinType[]=Sakuhins){
         renderSakuhins(searchFilter);
     });
 
+
+    clearButton.addEventListener("click",()=>{
+        renderSakuhins();
+        searchInput.value="";
+    });
     renderSakuhins();

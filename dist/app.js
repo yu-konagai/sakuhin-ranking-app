@@ -5,6 +5,7 @@ const tagsInput = document.getElementById("tags");
 const ratingInput = document.getElementById("rating");
 const sakuhinList = document.getElementById("sakuhin-list");
 const searchInput = document.getElementById("search");
+const clearButton = document.getElementById("clearButton");
 let Sakuhins = [];
 let editID = null;
 form.addEventListener("submit", (event) => {
@@ -47,10 +48,9 @@ function saveSakuhins() {
     localStorage.setItem("Sakuhins", JSON.stringify(Sakuhins));
 }
 const savedSakuhins = localStorage.getItem("Sakuhins");
-if (savedSakuhins) {
+if (savedSakuhins !== null) {
     Sakuhins = JSON.parse(savedSakuhins);
 }
-;
 function renderSakuhins(displaySakuhins = Sakuhins) {
     sakuhinList.innerHTML = "";
     displaySakuhins.forEach((sakuhin) => {
@@ -110,5 +110,9 @@ searchInput.addEventListener("input", () => {
         return sakuhin.title.includes(searchInput.value);
     });
     renderSakuhins(searchFilter);
+});
+clearButton.addEventListener("click", () => {
+    renderSakuhins();
+    searchInput.value = "";
 });
 renderSakuhins();
